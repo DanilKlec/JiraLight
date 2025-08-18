@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
+        x:Class="JiraLight.Desktop.Views.RegisterWindow"
+        Width="400" Height="350"
+        Background="#F5F5F5"
+        Title="Register"
+        WindowStartupLocation="CenterScreen">
+
+	<Window.DataContext>
+		<vm:RegisterViewModel/>
+	</Window.DataContext>
+
+	<Border Background="White" CornerRadius="10" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" >
+		<StackPanel>
+			<TextBlock Text="Create Account" FontSize="22" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+			<TextBox Watermark="Username" Text="{Binding Username}" Margin="0,0,0,10" Background="WhiteSmoke" BorderBrush="#CCCCCC" BorderThickness="1" Foreground="Black" Padding="5"/>
+			<TextBox Watermark="Password" Text="{Binding Password}" Margin="0,0,0,10" Background="WhiteSmoke" BorderBrush="#CCCCCC" BorderThickness="1" Foreground="Black" Padding="5"/>
+			<TextBox Watermark="Confirm Password" Text="{Binding ConfirmPassword}" Margin="0,0,0,20" Background="WhiteSmoke" BorderBrush="#CCCCCC" BorderThickness="1" Foreground="Black" Padding="5"/>
+
+			<Button Content="Register" Command="{Binding RegisterCommand}" Background="#28A745" Foreground="White" Height="35"/>
+		</StackPanel>
+	</Border>
+</Window>

@@ -1,0 +1,6 @@
+@JiraLight.API_HostAddress = http://localhost:5288
+
+GET {{JiraLight.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

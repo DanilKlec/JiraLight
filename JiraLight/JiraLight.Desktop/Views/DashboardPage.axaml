@@ -1,0 +1,95 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
+             x:Class="JiraLight.Desktop.Views.DashboardPage">
+
+	<DockPanel Margin="10">
+
+		<!-- Левая панель профиля -->
+		<Border DockPanel.Dock="Left" Width="200" Background="#FFFFFF" CornerRadius="10" Padding="15">
+			<StackPanel Spacing="20">
+				<Border Width="100" Height="100" CornerRadius="50" Background="#0078D7" HorizontalAlignment="Center">
+					<TextBlock Text="АИ" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="36" FontWeight="Bold"/>
+				</Border>
+				<TextBlock Text="{Binding UserName}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+				<Button Content="Выйти" Command="{Binding LogoutCommand}" Background="Red" Foreground="White" HorizontalAlignment="Stretch"/>
+			</StackPanel>
+		</Border>
+
+		<!-- Kanban Board -->
+		<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+			<StackPanel Orientation="Horizontal" Spacing="15">
+
+				<!-- ToDo Column -->
+				<Border x:Name="ToDoColumn" Width="250" Background="#cbe5f7" CornerRadius="10" Padding="10">
+					<StackPanel>
+						<TextBlock Text="To Do" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
+						<ItemsControl ItemsSource="{Binding ToDoTasks}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Border Background="White" CornerRadius="10" Padding="10" Margin="0,0,0,10" BorderBrush="#DDD" BorderThickness="1"
+                                            PointerPressed="Task_PointerPressed"
+                                            PointerMoved="Task_PointerMoved"
+                                            PointerReleased="Task_PointerReleased">
+										<StackPanel>
+											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+											<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#555" TextWrapping="Wrap"/>
+										</StackPanel>
+									</Border>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
+				</Border>
+
+				<!-- In Progress Column -->
+				<Border x:Name="InProgressColumn" Width="250" Background="#fae7c8" CornerRadius="10" Padding="10">
+					<StackPanel>
+						<TextBlock Text="In Progress" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
+						<ItemsControl ItemsSource="{Binding InProgressTasks}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Border Background="White" CornerRadius="10" Padding="10" Margin="0,0,0,10" BorderBrush="#DDD" BorderThickness="1"
+                                            PointerPressed="Task_PointerPressed"
+                                            PointerMoved="Task_PointerMoved"
+                                            PointerReleased="Task_PointerReleased">
+										<StackPanel>
+											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+											<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#555" TextWrapping="Wrap"/>
+										</StackPanel>
+									</Border>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
+				</Border>
+
+				<!-- Done Column -->
+				<Border x:Name="DoneColumn" Width="250" Background="#d7f7da" CornerRadius="10" Padding="10">
+					<StackPanel>
+						<TextBlock Text="Done" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
+						<ItemsControl ItemsSource="{Binding DoneTasks}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Border Background="White" CornerRadius="10" Padding="10" Margin="0,0,0,10" BorderBrush="#DDD" BorderThickness="1"
+                                            PointerPressed="Task_PointerPressed"
+                                            PointerMoved="Task_PointerMoved"
+                                            PointerReleased="Task_PointerReleased">
+										<StackPanel>
+											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+											<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#555" TextWrapping="Wrap"/>
+										</StackPanel>
+									</Border>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
+				</Border>
+
+			</StackPanel>
+		</ScrollViewer>
+
+		<!-- Canvas для визуального "призрака" таски -->
+		<Canvas x:Name="DragCanvas" IsHitTestVisible="False"/>
+	</DockPanel>
+</UserControl>

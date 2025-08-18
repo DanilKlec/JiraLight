@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36327.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraLight.API", "JiraLight.API\JiraLight.API.csproj", "{A6D20CE6-5EDA-4856-B7D9-7E25A13D25BD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13} = {FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraLight", "JiraLight\JiraLight\JiraLight.csproj", "{FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraLight.Android", "JiraLight\JiraLight.Android\JiraLight.Android.csproj", "{4681C79F-4B47-42F3-A2F1-2DDFA1146251}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraLight.Desktop", "JiraLight\JiraLight.Desktop\JiraLight.Desktop.csproj", "{C4958A85-16D4-4F04-A419-A17C8ADF2962}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraLight.iOS", "JiraLight\JiraLight.iOS\JiraLight.iOS.csproj", "{3B920998-1023-4BDC-AFC1-5B54E9EFCA97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraLight.Browser", "JiraLight\JiraLight.Browser\JiraLight.Browser.csproj", "{C30729A1-09C7-42A9-95CE-1D74572F11CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6D20CE6-5EDA-4856-B7D9-7E25A13D25BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6D20CE6-5EDA-4856-B7D9-7E25A13D25BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6D20CE6-5EDA-4856-B7D9-7E25A13D25BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6D20CE6-5EDA-4856-B7D9-7E25A13D25BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA2DDE76-3EC2-45AF-8E52-CCFF71BE7D13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4681C79F-4B47-42F3-A2F1-2DDFA1146251}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4681C79F-4B47-42F3-A2F1-2DDFA1146251}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4681C79F-4B47-42F3-A2F1-2DDFA1146251}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4681C79F-4B47-42F3-A2F1-2DDFA1146251}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4958A85-16D4-4F04-A419-A17C8ADF2962}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4958A85-16D4-4F04-A419-A17C8ADF2962}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4958A85-16D4-4F04-A419-A17C8ADF2962}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4958A85-16D4-4F04-A419-A17C8ADF2962}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B920998-1023-4BDC-AFC1-5B54E9EFCA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B920998-1023-4BDC-AFC1-5B54E9EFCA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B920998-1023-4BDC-AFC1-5B54E9EFCA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B920998-1023-4BDC-AFC1-5B54E9EFCA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C30729A1-09C7-42A9-95CE-1D74572F11CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C30729A1-09C7-42A9-95CE-1D74572F11CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C30729A1-09C7-42A9-95CE-1D74572F11CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C30729A1-09C7-42A9-95CE-1D74572F11CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4B23949-799B-478D-96E3-86F27546B17B}
+	EndGlobalSection
+EndGlobal
