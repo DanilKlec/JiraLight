@@ -6,7 +6,7 @@
 	<DockPanel Margin="10">
 
 		<!-- Левая панель профиля -->
-		<Border DockPanel.Dock="Left" Width="200" Background="#FFFFFF" CornerRadius="10" Padding="15">
+		<Border DockPanel.Dock="Left" Width="200" Background="#FFFFFF" CornerRadius="10" Padding="10">
 			<StackPanel Spacing="20">
 				<Border Width="100" Height="100" CornerRadius="50" Background="#0078D7" HorizontalAlignment="Center">
 					<TextBlock Text="АИ" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="36" FontWeight="Bold"/>
@@ -18,7 +18,7 @@
 
 		<!-- Kanban Board -->
 		<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-			<StackPanel Orientation="Horizontal" Spacing="15">
+			<StackPanel Orientation="Horizontal" Spacing="15" Margin="75,0,0,0">
 
 				<!-- ToDo Column -->
 				<Border x:Name="ToDoColumn" Width="250" Background="#cbe5f7" CornerRadius="10" Padding="10">
@@ -32,7 +32,7 @@
                                             PointerMoved="Task_PointerMoved"
                                             PointerReleased="Task_PointerReleased">
 										<StackPanel>
-											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="#555" TextWrapping="Wrap"/>
 											<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#555" TextWrapping="Wrap"/>
 										</StackPanel>
 									</Border>
@@ -54,7 +54,7 @@
                                             PointerMoved="Task_PointerMoved"
                                             PointerReleased="Task_PointerReleased">
 										<StackPanel>
-											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="#555" TextWrapping="Wrap"/>
 											<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#555" TextWrapping="Wrap"/>
 										</StackPanel>
 									</Border>
@@ -76,7 +76,7 @@
                                             PointerMoved="Task_PointerMoved"
                                             PointerReleased="Task_PointerReleased">
 										<StackPanel>
-											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+											<TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="#555" TextWrapping="Wrap"/>
 											<TextBlock Text="{Binding Description}" FontSize="14" Foreground="#555" TextWrapping="Wrap"/>
 										</StackPanel>
 									</Border>

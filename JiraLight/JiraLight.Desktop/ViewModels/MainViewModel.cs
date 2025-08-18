@@ -1,5 +1,6 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using JiraLight.Desktop.Services;
 using JiraLight.Desktop.Views;
 using ReactiveUI;
 using System.Reactive;
@@ -15,20 +16,41 @@ public class MainViewModel : ReactiveObject
         get => _currentPage;
         set => this.RaiseAndSetIfChanged(ref _currentPage, value);
     }
+    private bool _isLoggedIn;
+    public bool IsLoggedIn
+    {
+        get => _isLoggedIn;
+        set => this.RaiseAndSetIfChanged(ref _isLoggedIn, value);
+    }
 
-    private readonly DashboardViewModel _dashboardVm;
+    private DashboardViewModel _dashboardVm;
 
     public ReactiveCommand<Unit, Unit> NavigateDashboardCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenAddTaskDialogCommand { get; }
 
     public MainViewModel()
     {
-        _dashboardVm = new DashboardViewModel();
-        CurrentPage = _dashboardVm;
+        CurrentPage = new LoginPage
+        {
+            DataContext = new LoginViewModel(() =>
+            {
+                // После успешного логина
+                IsLoggedIn = true;
+
+                // Создаём DashboardViewModel с текущим пользователем
+                _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser);
+
+                CurrentPage = _dashboardVm;
+            })
+        };
 
         NavigateDashboardCommand = ReactiveCommand.Create(() =>
         {
-            CurrentPage = _dashboardVm; // всегда один экземпляр
+            if (_dashboardVm == null && LocalDataService.CurrentUser != null)
+            {
+                _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser);
+            }
+            CurrentPage = _dashboardVm;
         });
 
         OpenAddTaskDialogCommand = ReactiveCommand.Create(() =>
@@ -50,5 +72,11 @@ public class MainViewModel : ReactiveObject
                 };
             }
         });
+    }
+
+    // Метод, который будет вызван после успешного логина
+    private void OnLoginSuccess()
+    {
+        CurrentPage = _dashboardVm;
     }
 }

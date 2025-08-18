@@ -13,9 +13,8 @@ public class DashboardViewModel : ReactiveObject
     public ObservableCollection<TaskModel> InProgressTasks { get; }
     public ObservableCollection<TaskModel> DoneTasks { get; }
 
-    public DashboardViewModel()
+    public DashboardViewModel(UserModel currentUser)
     {
-        // 1. Инициализация коллекций
         ToDoTasks = new ObservableCollection<TaskModel>();
         InProgressTasks = new ObservableCollection<TaskModel>();
         DoneTasks = new ObservableCollection<TaskModel>();
@@ -24,13 +23,13 @@ public class DashboardViewModel : ReactiveObject
 
         if (board != null)
         {
-            foreach (var t in board.ToDoTasks ?? Enumerable.Empty<TaskModel>())
+            foreach (var t in board.ToDoTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
                 ToDoTasks.Add(t);
 
-            foreach (var t in board.InProgressTasks ?? Enumerable.Empty<TaskModel>())
+            foreach (var t in board.InProgressTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
                 InProgressTasks.Add(t);
 
-            foreach (var t in board.DoneTasks ?? Enumerable.Empty<TaskModel>())
+            foreach (var t in board.DoneTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
                 DoneTasks.Add(t);
         }
     }
@@ -56,7 +55,7 @@ public class DashboardViewModel : ReactiveObject
         }
     }
 
-    private void SaveAll()
+    public void SaveAll()
     {
         // Сохраняем именно те коллекции, которые UI использует напрямую
         var board = new BoardState

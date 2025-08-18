@@ -7,9 +7,6 @@
         Title="Register"
         WindowStartupLocation="CenterScreen">
 
-	<Window.DataContext>
-		<vm:RegisterViewModel/>
-	</Window.DataContext>
 
 	<Border Background="White" CornerRadius="10" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" >
 		<StackPanel>

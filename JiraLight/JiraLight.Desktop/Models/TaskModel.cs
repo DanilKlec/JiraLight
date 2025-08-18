@@ -13,7 +13,8 @@
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
         public TaskStatus Status { get; set; } // ToDo, InProgress, Done
-        public int? AssignedUserId { get; set; }
+        public UserModel AssignedUser { get; set; }
+        public UserModel CreateUser { get; set; }
     }
 
     public enum TaskStatus

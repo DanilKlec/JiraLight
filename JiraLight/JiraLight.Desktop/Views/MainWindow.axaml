@@ -2,8 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
         x:Class="JiraLight.Desktop.Views.MainWindow"
-        Width="900" Height="600"
-        Background="#F0F2F5"
+        Width="1150" Height="600"
+        CanResize="True"
+        TransparencyLevelHint="AcrylicBlur"
+		Background="Transparent"
         Title="Task Manager">
 
 	<Window.DataContext>
@@ -16,7 +18,8 @@
 		<StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Top"
                     Background="#0078D7"
-                    Height="50">
+                    Height="50"
+					IsVisible="{Binding IsLoggedIn}">
 			<TextBlock Text="Task Manager"
                        VerticalAlignment="Center"
                        Foreground="White"
@@ -29,12 +32,6 @@
                     Margin="20,10"
                     Background="#005A9E"
                     Foreground="White"/>
-
-			<Button Content="Задачи"
-                    Command="{Binding NavigateTasksCommand}"
-                    Margin="0,10"
-                    Background="#28A745"
-                    Foreground="White"/>
 			<Button Content="Добавить задачу"
             Command="{Binding OpenAddTaskDialogCommand}"
             Margin="10,10"
@@ -46,7 +43,7 @@
 		<Border CornerRadius="5"
                 Margin="10"
                 Padding="10"
-                Background="White">
+			Background="Transparent">
 			<ContentControl Content="{Binding CurrentPage}"/>
 		</Border>
 

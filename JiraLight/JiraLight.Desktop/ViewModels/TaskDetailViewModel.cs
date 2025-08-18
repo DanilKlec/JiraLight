@@ -1,4 +1,7 @@
-﻿using JiraLight.Desktop.Models;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+using JiraLight.Desktop.Models;
+using JiraLight.Desktop.Services;
+using JiraLight.Desktop.Views;
 using ReactiveUI;
 using System;
 using System.Collections.Generic;
@@ -15,10 +18,12 @@ public class TaskDetailViewModel : ReactiveObject
 {
     private string _title;
     private string _description;
+    private UserModel _selectedUser;
     private TaskStatus _status;
 
     public TaskModel Task { get; }
     private readonly DashboardViewModel _dashboard;
+    public ObservableCollection<UserModel> Users { get; }
 
     public string Title
     {
@@ -38,6 +43,12 @@ public class TaskDetailViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _status, value);
     }
 
+    public UserModel SelectedUser
+    {
+        get => _selectedUser;
+        set => this.RaiseAndSetIfChanged(ref _selectedUser, value);
+    }
+
     public ReactiveCommand<Unit, Unit> SaveCommand { get; }
     public ReactiveCommand<Unit, Unit> BackCommand { get; }
 
@@ -53,12 +64,19 @@ public class TaskDetailViewModel : ReactiveObject
         Description = task.Description;
         Status = task.Status;
 
+        // Загружаем пользователей из LocalDataService
+        Users = new ObservableCollection<UserModel>(LocalDataService.LoadUsers());
+
+        // По умолчанию назначаем текущего пользователя
+        SelectedUser = task.AssignedUser;
+
         SaveCommand = ReactiveCommand.Create(() =>
         {
             // Обновляем модель
             Task.Title = Title;
             Task.Description = Description;
-
+            Task.CreateUser = LocalDataService.CurrentUser;
+            Task.AssignedUser = SelectedUser;
             // Если статус изменился — перемещаем задачу в другую колонку
             if (Task.Status != Status)
             {
@@ -82,6 +100,31 @@ public class TaskDetailViewModel : ReactiveObject
             }
         });
 
+        DeleteCommand = ReactiveCommand.Create(() =>
+        {
+            var source = Task.Status switch
+            {
+                TaskStatus.ToDo => _dashboard.ToDoTasks,
+                TaskStatus.InProgress => _dashboard.InProgressTasks,
+                TaskStatus.Done => _dashboard.DoneTasks,
+                _ => _dashboard.ToDoTasks
+            };
+
+            source.Remove(Task);
+            _dashboard.SaveAll();
+
+            // Показ уведомления
+            if (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                var notification = new DeleteNotificationWindow();
+                notification.Show(desktop.MainWindow);
+            }
+
+            goBack();
+        });
+
         BackCommand = ReactiveCommand.Create(goBack);
     }
+
+    public ReactiveCommand<Unit, Unit> DeleteCommand { get; }
 }

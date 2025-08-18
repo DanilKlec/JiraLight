@@ -1,0 +1,52 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
+             x:Class="JiraLight.Desktop.Views.LoginPage"
+             Width="400" Height="300">
+
+	<!-- Полупрозрачный фон -->
+	<Border Background="#CCFFFFFF" CornerRadius="15" Padding="20">
+		<StackPanel Spacing="15" VerticalAlignment="Center">
+
+			<TextBlock Text="Welcome Back!"
+                       FontSize="22" FontWeight="Bold"
+                       HorizontalAlignment="Center" Foreground="#333"/>
+
+			<!-- Username -->
+			<TextBox Watermark="Username"
+                     Text="{Binding Username, Mode=TwoWay}"
+                     Background="#EEE" Padding="8" CornerRadius="8"/>
+
+			<!-- Password -->
+			<TextBox Watermark="Password"
+                     Text="{Binding Password, Mode=TwoWay}"
+                     Background="#EEE" Padding="8" CornerRadius="8"/>
+
+			<Grid Margin="0,10,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<Button Content="Login"
+						Command="{Binding LoginCommand}"
+						Background="#4CAF50"
+						Foreground="White"
+						FontWeight="Bold"
+						Height="35"
+						CornerRadius="10"
+						HorizontalAlignment="Left" />
+
+				<Button Content="Register"
+						Command="{Binding OpenRegisterCommand}"
+						Background="#2196F3"
+						Foreground="White"
+						FontWeight="Bold"
+						Height="35"
+						CornerRadius="10"
+						Grid.Column="1"
+						HorizontalAlignment="Right" />
+			</Grid>
+		</StackPanel>
+	</Border>
+</UserControl>
