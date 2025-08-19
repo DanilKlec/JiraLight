@@ -7,7 +7,10 @@
         CanResize="True"
         TransparencyLevelHint="AcrylicBlur"
 		Background="Transparent"
-        Title="Task Manager">
+        Title="Jira Light"
+		ExtendClientAreaToDecorationsHint="True"
+ExtendClientAreaChromeHints="NoChrome"
+ExtendClientAreaTitleBarHeightHint="50">
 
 	<Window.DataContext>
 		<vm:MainViewModel/>
@@ -54,43 +57,49 @@
 		</Style>
 	</Window.Styles>
 	<DockPanel>
+		<Border DockPanel.Dock="Top" Background="#0078D7" Height="50" CornerRadius="12,12,0,0"
+                    PointerPressed="TopBar_OnPointerPressed">
+			<DockPanel>
+				<TextBlock Text="Jira Light" VerticalAlignment="Center"
+						   Margin="15,0" FontSize="16" FontWeight="Bold" Foreground="White"/>
 
-		<!-- Верхняя панель -->
-		<StackPanel Orientation="Horizontal"
-                    DockPanel.Dock="Top"
-                    Background="#0078D7"
-                    Height="50"
-					IsVisible="{Binding IsLoggedIn}">
-			<TextBlock Text="Task Manager"
-                       VerticalAlignment="Center"
-                       Foreground="White"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       Margin="10,0"/>
+				<!-- Навигация -->
+				<StackPanel Orientation="Horizontal" Margin="20,0,0,0" IsVisible="{Binding IsLoggedIn}">
 
-			<Button Content="Главная"
-                    Command="{Binding NavigateDashboardCommand}"
-                    Margin="20,10"
-                    Background="#005A9E"
-                    Foreground="White"/>
-			<Button Content="Задачи"
-					Command="{Binding OpenTaskListCommand}"
-					Margin="10,10"
-					Background="#FFA500"
-					Foreground="White"/>
-			<Button Content="Пользователи"
-					Command="{Binding OpenUserListCommand}"
-					Margin="10,10"
-					Background="#FFA500"
-					Foreground="White"
-					IsVisible="{Binding IsAdmin}"/>
-			<Button Content="Добавить задачу"
-					Command="{Binding OpenAddTaskDialogCommand}"
-					Margin="10,10"
-					Background="#FFA500"
-					Foreground="White"/>
-		</StackPanel>
+					<Button Content="Главная"
+							Command="{Binding NavigateDashboardCommand}"
+							Margin="20,10"
+							Background="#005A9E"
+							Foreground="White"/>
+					<Button Content="Задачи"
+							Command="{Binding OpenTaskListCommand}"
+							Margin="10,10"
+							Background="#FFA500"
+							Foreground="White"/>
+					<Button Content="Пользователи"
+							Command="{Binding OpenUserListCommand}"
+							Margin="10,10"
+							Background="#FFA500"
+							Foreground="White"
+							IsVisible="{Binding IsAdmin}"/>
+					<Button Content="Добавить задачу"
+							Command="{Binding OpenAddTaskDialogCommand}"
+							Margin="10,10"
+							Background="#FFA500"
+							Foreground="White"/>
+				</StackPanel>
 
+				<!-- Кнопки управления окном -->
+				<StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right" Spacing="5">
+					<Button x:Name="MinimizeButton" Content="—" Width="32" Height="32"
+							Background="Transparent" BorderThickness="0" Foreground="White"/>
+					<Button x:Name="MaximizeButton" Content="◻" Width="32" Height="32"
+							Background="Transparent" BorderThickness="0" Foreground="White"/>
+					<Button x:Name="CloseButton" Content="✕" Width="32" Height="32"
+							Background="Transparent" BorderThickness="0" Foreground="#e53935"/>
+				</StackPanel>
+			</DockPanel>
+		</Border>
 		<!-- Область для страниц -->
 		<Border CornerRadius="5"
                 Margin="10"
