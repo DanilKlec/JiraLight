@@ -2,13 +2,6 @@
 {
     public class TaskModel
     {
-        private static int _nextId = 1;
-
-        public TaskModel()
-        {
-            Id = _nextId++;
-        }
-
         public int Id { get; private set; }
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";

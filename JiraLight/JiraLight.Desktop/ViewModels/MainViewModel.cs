@@ -45,7 +45,7 @@ public class MainViewModel : ReactiveObject
             {
                 // После успешного логина
                 IsLoggedIn = true;
-                IsAdmin = LocalDataService.CurrentUser.IsAdmin ?? false;
+                IsAdmin = LocalDataService.CurrentUser.IsAdmin == true ? true : false;
                 // Создаём DashboardViewModel с текущим пользователем
                 _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser, this);
 
@@ -104,6 +104,7 @@ public class MainViewModel : ReactiveObject
     {
         IsLoggedIn = true;
         _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser, this); // пересоздаем для нового пользователя
+        IsAdmin = LocalDataService.CurrentUser.IsAdmin == true ? true : false;
         CurrentPage = _dashboardVm;
     }
 
@@ -111,6 +112,7 @@ public class MainViewModel : ReactiveObject
     {
         LocalDataService.Logout();
         IsLoggedIn = false;
+        IsAdmin = false;
 
         // возвращаем на LoginPage
         CurrentPage = new LoginPage

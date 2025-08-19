@@ -52,13 +52,13 @@ public class DashboardViewModel : ReactiveObject
 
         if (board != null)
         {
-            foreach (var t in board.ToDoTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
+            foreach (var t in board.ToDoTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id || currentUser?.IsAdmin == true) ?? Enumerable.Empty<TaskModel>())
                 ToDoTasks.Add(t);
 
-            foreach (var t in board.InProgressTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
+            foreach (var t in board.InProgressTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id || currentUser?.IsAdmin == true) ?? Enumerable.Empty<TaskModel>())
                 InProgressTasks.Add(t);
 
-            foreach (var t in board.DoneTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
+            foreach (var t in board.DoneTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id || currentUser?.IsAdmin == true) ?? Enumerable.Empty<TaskModel>())
                 DoneTasks.Add(t);
         }
 

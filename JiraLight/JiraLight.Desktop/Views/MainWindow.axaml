@@ -3,7 +3,7 @@
         xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
 		xmlns:local="clr-namespace:JiraLight.Desktop.ViewModels"
         x:Class="JiraLight.Desktop.Views.MainWindow"
-        Width="1150" Height="600"
+        Width="1450" Height="800"
         CanResize="True"
         TransparencyLevelHint="AcrylicBlur"
 		Background="Transparent"
@@ -75,7 +75,8 @@ ExtendClientAreaTitleBarHeightHint="50">
 							Command="{Binding OpenTaskListCommand}"
 							Margin="10,10"
 							Background="#FFA500"
-							Foreground="White"/>
+							Foreground="White"
+							IsVisible="{Binding IsAdmin}"/>
 					<Button Content="Пользователи"
 							Command="{Binding OpenUserListCommand}"
 							Margin="10,10"
