@@ -2,9 +2,9 @@ using Avalonia.Controls;
 
 namespace JiraLight.Desktop.Views;
 
-public partial class RegisterWindow : Window
+public partial class TaskListPage : UserControl
 {
-    public RegisterWindow()
+    public TaskListPage()
     {
         InitializeComponent();
     }

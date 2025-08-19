@@ -14,13 +14,15 @@
 
 			<!-- Username -->
 			<TextBox Watermark="Username"
-                     Text="{Binding Username, Mode=TwoWay}"
-                     Background="#EEE" Padding="8" CornerRadius="8"/>
+								 Text="{Binding Username, Mode=TwoWay}"
+								 Padding="8"
+								 CornerRadius="8"/>
 
 			<!-- Password -->
 			<TextBox Watermark="Password"
                      Text="{Binding Password, Mode=TwoWay}"
-                     Background="#EEE" Padding="8" CornerRadius="8"/>
+					 Padding="8"
+					 CornerRadius="8"/>
 
 			<Grid Margin="0,10,0,0">
 				<Grid.ColumnDefinitions>

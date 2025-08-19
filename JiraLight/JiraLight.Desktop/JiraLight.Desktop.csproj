@@ -43,5 +43,11 @@
 		<Compile Update="Views\MainWindow.axaml.cs">
 			<DependentUpon>MainWindow.axaml</DependentUpon>
 		</Compile>
+		<Compile Update="Views\RegisterPage.axaml.cs">
+		  <DependentUpon>RegisterPage.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\UserListPage.axaml.cs">
+		  <DependentUpon>UserListPage.axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 </Project>

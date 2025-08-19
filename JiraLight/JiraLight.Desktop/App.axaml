@@ -14,9 +14,17 @@
 	</Application.DataTemplates>
 	<Application.Styles>
 		<themes:FluentTheme />
-
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 		<Style Selector="Window">
 			<Setter Property="Background" Value="Transparent"/>
+		</Style>
+
+		<!-- Твой стиль -->
+		<Style Selector="TextBox">
+			<Setter Property="Background" Value="#adaaaa"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="CaretBrush" Value="White"/>
+			<Setter Property="SelectionBrush" Value="#80FFFFFF"/>
 		</Style>
 	</Application.Styles>
 </Application>

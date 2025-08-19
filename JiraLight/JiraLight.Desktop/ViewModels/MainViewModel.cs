@@ -23,10 +23,19 @@ public class MainViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _isLoggedIn, value);
     }
 
+    private bool _isAdmin;
+    public bool IsAdmin
+    {
+        get => _isAdmin;
+        set => this.RaiseAndSetIfChanged(ref _isAdmin, value);
+    }
+
     private DashboardViewModel _dashboardVm;
 
     public ReactiveCommand<Unit, Unit> NavigateDashboardCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenAddTaskDialogCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenTaskListCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenUserListCommand { get; }
 
     public MainViewModel()
     {
@@ -36,21 +45,37 @@ public class MainViewModel : ReactiveObject
             {
                 // После успешного логина
                 IsLoggedIn = true;
-
+                IsAdmin = LocalDataService.CurrentUser.IsAdmin ?? false;
                 // Создаём DashboardViewModel с текущим пользователем
-                _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser);
+                _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser, this);
 
                 CurrentPage = _dashboardVm;
-            })
+            }, this)
         };
 
         NavigateDashboardCommand = ReactiveCommand.Create(() =>
         {
             if (_dashboardVm == null && LocalDataService.CurrentUser != null)
             {
-                _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser);
+                _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser, this);
             }
             CurrentPage = _dashboardVm;
+        });
+
+        OpenTaskListCommand = ReactiveCommand.Create(() =>
+        {
+            CurrentPage = new TaskListPage
+            {
+                DataContext = new TaskListViewModel()
+            };
+        });
+
+        OpenUserListCommand = ReactiveCommand.Create(() =>
+        {
+            CurrentPage = new UserListPage
+            {
+                DataContext = new UserListViewModel()
+            };
         });
 
         OpenAddTaskDialogCommand = ReactiveCommand.Create(() =>
@@ -77,6 +102,20 @@ public class MainViewModel : ReactiveObject
     // Метод, который будет вызван после успешного логина
     private void OnLoginSuccess()
     {
+        IsLoggedIn = true;
+        _dashboardVm = new DashboardViewModel(LocalDataService.CurrentUser, this); // пересоздаем для нового пользователя
         CurrentPage = _dashboardVm;
+    }
+
+    public void Logout()
+    {
+        LocalDataService.Logout();
+        IsLoggedIn = false;
+
+        // возвращаем на LoginPage
+        CurrentPage = new LoginPage
+        {
+            DataContext = new LoginViewModel(OnLoginSuccess, this)
+        };
     }
 }

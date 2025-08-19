@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
+		xmlns:local="clr-namespace:JiraLight.Desktop.ViewModels"
         x:Class="JiraLight.Desktop.Views.MainWindow"
         Width="1150" Height="600"
         CanResize="True"
@@ -12,6 +13,46 @@
 		<vm:MainViewModel/>
 	</Window.DataContext>
 
+	<Window.Resources>
+		<local:StringToOpacityConverter x:Key="StringToOpacityConverter"/>
+	</Window.Resources>
+
+	<Window.Styles>
+		<Style Selector="TextBox">
+			<Setter Property="Background" Value="#adaaaa"/>
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="CaretBrush" Value="Black"/>
+			<Setter Property="SelectionBrush" Value="#80FFFFFF"/>
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Border Background="{TemplateBinding Background}"
+							CornerRadius="8"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}">
+						<Grid>
+							<!-- ScrollViewer с текстом -->
+							<ScrollViewer x:Name="PART_ScrollViewer"
+										  Padding="{TemplateBinding Padding}">
+								<TextPresenter x:Name="PART_TextPresenter"
+											   Text="{TemplateBinding Text}"
+											   CaretBrush="{TemplateBinding CaretBrush}"
+											   SelectionBrush="{TemplateBinding SelectionBrush}"/>
+							</ScrollViewer>
+
+							<!-- Watermark реализуем через TextBlock -->
+							<TextBlock Name="PART_CustomWatermark"
+									   Text="{TemplateBinding Watermark}"
+									   Foreground="Gray"
+									   Margin="8,0,0,0"
+									   VerticalAlignment="Center"
+									   IsHitTestVisible="False"
+									   Opacity="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringToOpacityConverter}}"/>
+						</Grid>
+					</Border>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+	</Window.Styles>
 	<DockPanel>
 
 		<!-- Верхняя панель -->
@@ -32,11 +73,22 @@
                     Margin="20,10"
                     Background="#005A9E"
                     Foreground="White"/>
+			<Button Content="Задачи"
+					Command="{Binding OpenTaskListCommand}"
+					Margin="10,10"
+					Background="#FFA500"
+					Foreground="White"/>
+			<Button Content="Пользователи"
+					Command="{Binding OpenUserListCommand}"
+					Margin="10,10"
+					Background="#FFA500"
+					Foreground="White"
+					IsVisible="{Binding IsAdmin}"/>
 			<Button Content="Добавить задачу"
-            Command="{Binding OpenAddTaskDialogCommand}"
-            Margin="10,10"
-            Background="#FFA500"
-            Foreground="White"/>
+					Command="{Binding OpenAddTaskDialogCommand}"
+					Margin="10,10"
+					Background="#FFA500"
+					Foreground="White"/>
 		</StackPanel>
 
 		<!-- Область для страниц -->

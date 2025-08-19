@@ -6,14 +6,75 @@
 	<DockPanel Margin="10">
 
 		<!-- Левая панель профиля -->
-		<Border DockPanel.Dock="Left" Width="200" Background="#FFFFFF" CornerRadius="10" Padding="10">
-			<StackPanel Spacing="20">
-				<Border Width="100" Height="100" CornerRadius="50" Background="#0078D7" HorizontalAlignment="Center">
-					<TextBlock Text="АИ" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="36" FontWeight="Bold"/>
-				</Border>
-				<TextBlock Text="{Binding UserName}" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
-				<Button Content="Выйти" Command="{Binding LogoutCommand}" Background="Red" Foreground="White" HorizontalAlignment="Stretch"/>
-			</StackPanel>
+		<Border DockPanel.Dock="Left" Width="200" Background="#dedede" CornerRadius="10" Padding="10">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*"/>
+					<!-- Верхнее содержимое (аватар + счетчики) -->
+					<RowDefinition Height="Auto"/>
+					<!-- Кнопка выхода -->
+				</Grid.RowDefinitions>
+
+				<!-- Верхнее содержимое -->
+				<StackPanel Spacing="20" Grid.Row="0" VerticalAlignment="Top">
+					<!-- Аватар с инициалами -->
+					<Border Width="100" Height="100" CornerRadius="50" Background="#0078D7" HorizontalAlignment="Center">
+						<TextBlock Text="{Binding Initials}"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Center"
+								   Foreground="White"
+								   FontSize="36"
+								   FontWeight="Bold"/>
+					</Border>
+
+					<!-- Имя пользователя -->
+					<TextBlock Text="{Binding UserName}"
+							   FontSize="18"
+							   FontWeight="Bold"
+							   HorizontalAlignment="Center" Foreground="Black"/>
+
+					<!-- Счётчики задач -->
+					<StackPanel Spacing="10" HorizontalAlignment="Center">
+						<!-- В ожидании -->
+						<Border Background="#FBC02D" BorderBrush="#FFFDE7" BorderThickness="2"
+								CornerRadius="10" Padding="10" Width="170" Height="50">
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10">
+								<TextBlock Text="🕑 В ожидании" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+								<TextBlock Text="{Binding ToDoTasks.Count}" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+							</StackPanel>
+						</Border>
+
+						<!-- В работе -->
+						<Border Background="#1E88E5" BorderBrush="#E3F2FD" BorderThickness="2"
+								CornerRadius="10" Padding="10" Width="170" Height="50">
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10">
+								<TextBlock Text="🔄 В работе" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+								<TextBlock Text="{Binding InProgressTasks.Count}" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+							</StackPanel>
+						</Border>
+
+						<!-- Готово -->
+						<Border Background="#43A047" BorderBrush="#E8F5E9" BorderThickness="2" 
+								CornerRadius="10" Padding="10" Width="170" Height="50">
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="10">
+								<TextBlock Text="✅ Готово" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+								<TextBlock Text="{Binding DoneTasks.Count}" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+							</StackPanel>
+						</Border>
+					</StackPanel>
+				</StackPanel>
+
+				<!-- Кнопка выхода -->
+				<Button Content="Выйти"
+						Command="{Binding LogoutCommand}"
+						Background="Red"
+						Foreground="White"
+						FontWeight="Bold"
+						CornerRadius="6"
+						HorizontalAlignment="Stretch"
+						Margin="10"
+						Grid.Row="1"/>
+			</Grid>
 		</Border>
 
 		<!-- Kanban Board -->
@@ -21,7 +82,7 @@
 			<StackPanel Orientation="Horizontal" Spacing="15" Margin="75,0,0,0">
 
 				<!-- ToDo Column -->
-				<Border x:Name="ToDoColumn" Width="250" Background="#cbe5f7" CornerRadius="10" Padding="10">
+				<Border x:Name="ToDoColumn" Width="350" Background="#FBC02D" CornerRadius="10" Padding="10">
 					<StackPanel>
 						<TextBlock Text="To Do" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
 						<ItemsControl ItemsSource="{Binding ToDoTasks}">
@@ -43,7 +104,7 @@
 				</Border>
 
 				<!-- In Progress Column -->
-				<Border x:Name="InProgressColumn" Width="250" Background="#fae7c8" CornerRadius="10" Padding="10">
+				<Border x:Name="InProgressColumn" Width="350" Background="#1E88E5" CornerRadius="10" Padding="10">
 					<StackPanel>
 						<TextBlock Text="In Progress" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
 						<ItemsControl ItemsSource="{Binding InProgressTasks}">
@@ -65,7 +126,7 @@
 				</Border>
 
 				<!-- Done Column -->
-				<Border x:Name="DoneColumn" Width="250" Background="#d7f7da" CornerRadius="10" Padding="10">
+				<Border x:Name="DoneColumn" Width="350" Background="#43A047" CornerRadius="10" Padding="10">
 					<StackPanel>
 						<TextBlock Text="Done" FontSize="18" FontWeight="Bold" Foreground="Black" Margin="0,0,0,10"/>
 						<ItemsControl ItemsSource="{Binding DoneTasks}">

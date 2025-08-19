@@ -1,0 +1,88 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:JiraLight.Desktop.ViewModels"
+             xmlns:model="clr-namespace:JiraLight.Desktop.Models"
+             x:Class="JiraLight.Desktop.Views.TaskListPage"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+
+	<Grid Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Современный блок фильтров -->
+		<Border Grid.Row="0"
+                Background="#F0F0F0"
+                CornerRadius="12"
+                Padding="10"
+                Margin="0,0,0,10">
+			<StackPanel Orientation="Horizontal" Spacing="10">
+
+				<TextBox Width="200"
+                         Text="{Binding FilterTitle}"
+                         Watermark="Название задачи"
+                         FontSize="14"
+                         Padding="6" Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Foreground="Black"/>
+				
+				<ComboBox Width="180"
+                          ItemsSource="{Binding Users}"
+                          SelectedItem="{Binding FilterUser}"
+                          FontSize="14"
+                          Padding="4" Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Foreground="Black">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<ComboBox Width="180"
+                          ItemsSource="{Binding TaskStatusList}"
+                          SelectedItem="{Binding FilterStatus}"
+                          FontSize="14"
+                          Padding="4" Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="4" Foreground="Black">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+
+				<Button Content="Применить"
+                        Command="{Binding ApplyFiltersCommand}"
+                        Background="#0078D7"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        Padding="6,4"
+                        CornerRadius="6"/>
+
+				<Button Content="Очистить"
+                        Command="{Binding ClearFiltersCommand}"
+                        Background="#CCCCCC"
+                        Foreground="Black"
+                        FontWeight="Bold"
+                        Padding="6,4"
+                        CornerRadius="6"/>
+			</StackPanel>
+		</Border>
+
+		<!-- Таблица задач -->
+		<DataGrid Grid.Row="1"
+                  ItemsSource="{Binding FilteredTasks}"
+                  AutoGenerateColumns="False"
+                  CanUserResizeColumns="True"
+                  GridLinesVisibility="Horizontal"
+                  FontSize="14"
+                  CornerRadius="8"
+				  IsReadOnly="True">
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+				<DataGridTextColumn Header="Название" Binding="{Binding Title}"/>
+				<DataGridTextColumn Header="Пользователь" Binding="{Binding AssignedUser.Name}"/>
+				<DataGridTextColumn Header="Статус" Binding="{Binding Status}"/>
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</UserControl>

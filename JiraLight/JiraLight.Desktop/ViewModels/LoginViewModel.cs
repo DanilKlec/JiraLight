@@ -9,6 +9,12 @@ namespace JiraLight.Desktop.ViewModels
 {
     public class LoginViewModel : ReactiveObject
     {
+        private object _currentPage;
+        public object CurrentPage
+        {
+            get => _currentPage;
+            set => this.RaiseAndSetIfChanged(ref _currentPage, value);
+        }
         private string _username;
         public string Username
         {
@@ -26,10 +32,12 @@ namespace JiraLight.Desktop.ViewModels
         public ReactiveCommand<Unit, Unit> LoginCommand { get; }
         public ReactiveCommand<Unit, Unit> OpenRegisterCommand { get; }
 
+        private readonly MainViewModel _mainViewModel;
         private readonly Action _onSuccess;
 
-        public LoginViewModel(Action onSuccess)
+        public LoginViewModel(Action onSuccess, MainViewModel mainViewModel)
         {
+            _mainViewModel = mainViewModel;
             _onSuccess = onSuccess;
 
             LoginCommand = ReactiveCommand.Create(() =>
@@ -44,21 +52,23 @@ namespace JiraLight.Desktop.ViewModels
 
             OpenRegisterCommand = ReactiveCommand.Create(() =>
             {
-                if (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                // Создаём страницу регистрации и её ViewModel
+                var registerPage = new RegisterPage
                 {
-                    var registerWindow = new RegisterWindow();
-                    registerWindow.DataContext = new RegisterViewModel(() =>
+                    DataContext = new RegisterViewModel(() =>
                     {
-                        // После регистрации сразу логинимся
+                        // После успешной регистрации сразу логинимся
                         LocalDataService.Login(Username, Password);
 
-                        // А дальше можно вызвать общий onSuccess (например, переход на Dashboard)
+                        // Переходим на Dashboard
                         _onSuccess?.Invoke();
-                    });
+                    })
+                };
 
-                    registerWindow.Show();
-                }
+                // Меняем текущую страницу MainViewModel
+                _mainViewModel.CurrentPage = registerPage;
             });
+            _mainViewModel = mainViewModel;
         }
     }
 

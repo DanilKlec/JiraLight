@@ -1,9 +1,12 @@
-﻿using DynamicData;
+﻿using Avalonia.Controls.ApplicationLifetimes;
+using DynamicData;
 using JiraLight.Desktop.Models;
 using JiraLight.Desktop.Services;
+using JiraLight.Desktop.Views;
 using ReactiveUI;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reactive;
 
 namespace JiraLight.Desktop.ViewModels;
 
@@ -13,11 +16,37 @@ public class DashboardViewModel : ReactiveObject
     public ObservableCollection<TaskModel> InProgressTasks { get; }
     public ObservableCollection<TaskModel> DoneTasks { get; }
 
-    public DashboardViewModel(UserModel currentUser)
+    private string _userName;
+    public string UserName
+    {
+        get => _userName;
+        set => this.RaiseAndSetIfChanged(ref _userName, value);
+    }
+
+    private string _initials;
+    public string Initials
+    {
+        get => _initials;
+        set => this.RaiseAndSetIfChanged(ref _initials, value);
+    }
+
+    public int ToDoCount => ToDoTasks.Count;
+    public int InProgressCount => InProgressTasks.Count;
+    public int DoneCount => DoneTasks.Count;
+
+    public ReactiveCommand<Unit, Unit> LogoutCommand { get; }
+
+    public DashboardViewModel(UserModel currentUser, MainViewModel mainVm)
     {
         ToDoTasks = new ObservableCollection<TaskModel>();
         InProgressTasks = new ObservableCollection<TaskModel>();
         DoneTasks = new ObservableCollection<TaskModel>();
+
+        UserName = currentUser?.Name ?? "Неизвестный";
+        Initials = string.Join("", UserName.Split(' ')
+                                           .Where(w => !string.IsNullOrWhiteSpace(w))
+                                           .Select(w => w[0]))
+                                           .ToUpper();
 
         var board = LocalDataService.LoadTasks();
 
@@ -32,6 +61,16 @@ public class DashboardViewModel : ReactiveObject
             foreach (var t in board.DoneTasks.Where(_ => _.CreateUser?.Id == currentUser?.Id || _.AssignedUser?.Id == currentUser?.Id) ?? Enumerable.Empty<TaskModel>())
                 DoneTasks.Add(t);
         }
+
+        LogoutCommand = ReactiveCommand.Create(() =>
+        {
+            mainVm.Logout();
+        });
+
+        // следим за изменениями для счетчиков
+        ToDoTasks.CollectionChanged += (_, __) => this.RaisePropertyChanged(nameof(ToDoCount));
+        InProgressTasks.CollectionChanged += (_, __) => this.RaisePropertyChanged(nameof(InProgressCount));
+        DoneTasks.CollectionChanged += (_, __) => this.RaisePropertyChanged(nameof(DoneCount));
     }
 
     public void AddTask(TaskModel task)

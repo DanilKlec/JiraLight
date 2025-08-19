@@ -17,7 +17,9 @@ public partial class DashboardPage : UserControl
     private ObservableCollection<TaskModel> _sourceCollection;
     private Border _dragVisual;
     private DateTime _lastClickTime;
-    private const int DoubleClickThresholdMs = 5000;
+    private const int DoubleClickThresholdMs = 500;
+    private bool _isDragging = false;
+    private Point _dragStartPoint;
 
     public DashboardPage()
     {
@@ -36,14 +38,62 @@ public partial class DashboardPage : UserControl
                 _lastClickTime = DateTime.MinValue;
                 return; // не начинаем Drag
             }
+
             _lastClickTime = now;
 
-            // Старт Drag
-            StartDrag(border, task, e);
+            // Сохраняем начальную точку для Drag
+            _dragStartPoint = e.GetPosition(DragCanvas);
+            _isDragging = false; // пока не движемся
+            _draggedTask = task;
+
+            // Подписка на Move и Release
+            border.PointerMoved += Task_PointerMoved_WithThreshold;
+            border.PointerReleased += Task_PointerReleased_WithThreshold;
         }
     }
 
-    private void StartDrag(Border border, TaskModel task, PointerPressedEventArgs e)
+    private void Task_PointerMoved_WithThreshold(object sender, PointerEventArgs e)
+    {
+        if (_draggedTask == null) return;
+
+        var currentPos = e.GetPosition(DragCanvas);
+        var delta = currentPos - _dragStartPoint;
+
+        // Если движение превысило 5 пикселей, начинаем Drag
+        if (!_isDragging && (Math.Abs(delta.X) > 5 || Math.Abs(delta.Y) > 5))
+        {
+            _isDragging = true;
+            if (sender is Border border)
+            {
+                StartDrag(border, _draggedTask, e);
+            }
+        }
+
+        if (_isDragging && _dragVisual != null)
+        {
+            UpdateDragVisualPosition(currentPos);
+        }
+    }
+
+    private void Task_PointerReleased_WithThreshold(object sender, PointerReleasedEventArgs e)
+    {
+        if (_draggedTask != null && _isDragging)
+        {
+            Task_PointerReleased(sender, e); // выполняем перенос
+        }
+
+        // Снимаем обработчики
+        if (sender is Border border)
+        {
+            border.PointerMoved -= Task_PointerMoved_WithThreshold;
+            border.PointerReleased -= Task_PointerReleased_WithThreshold;
+        }
+
+        _draggedTask = null;
+        _isDragging = false;
+    }
+
+    private void StartDrag(Border border, TaskModel task, PointerEventArgs e)
     {
         if (DataContext is DashboardViewModel vm)
         {
